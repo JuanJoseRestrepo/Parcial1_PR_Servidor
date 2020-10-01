@@ -148,7 +148,6 @@ public class TCPConnection extends Thread {
 
         if(hayMasDeDosUsuarios()) {
             //------------------
-        	System.out.println("Eh marica");
         	salaDeEspera.remove(index);
         	s.closeSocket();
         	
