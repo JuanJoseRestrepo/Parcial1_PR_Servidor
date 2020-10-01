@@ -35,7 +35,7 @@ public class Receptor extends Thread {
 				if(listener != null) {
 					listener.onMessage(s,msj);
 				}
-				//System.out.println("Recibido:" + msj);
+				System.out.println("Recibido:" + msj);
 			
 		}
 		

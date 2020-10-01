@@ -49,6 +49,7 @@ public class GameController implements OnMessageListener, OnConnectionListener {
 		case "UserMessage":
 			
 			UserMessage userM = gson.fromJson(message, UserMessage.class);
+			
 			s.setUserName(userM.getId());
 			connection.addUser(s, userM.getId());
 			break;
@@ -60,8 +61,7 @@ public class GameController implements OnMessageListener, OnConnectionListener {
 			Message normalM = new Message(newTile.getId(),body,"");
 			String jsonn = gson.toJson(normalM);
 			
-			System.out.println(newTile.getId());
-			System.out.println("Manuel");
+			
 			connection.sendDirectMessage(newTile.getId(), jsonn);
 			
 			break;

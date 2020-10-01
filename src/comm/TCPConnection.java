@@ -34,6 +34,7 @@ public class TCPConnection extends Thread {
 		conectados = new ArrayList<Session>();	
 		salaDeEspera = new ArrayList<Session>();
 		conexiones = new ArrayList<NewConnection>();
+		setDaemon(true);
 	}
 
 	
@@ -149,21 +150,22 @@ public class TCPConnection extends Thread {
             //------------------
         	System.out.println("Eh marica");
         	salaDeEspera.remove(index);
-        	NewConnection coneccion = new NewConnection(s.getUserName(),"Existe","");
-            String mensaje = s.getUserName();
+        	s.closeSocket();
+        	
+        	NewConnection coneccion = new NewConnection(msg,"Existe","");
             String mensaje2 = json.toJson(coneccion);
             connectionListener.OnRepeatConnection();
-            s.getEmisor().setMessage(mensaje2);
-           
+            s.getEmisor().setMessage(mensaje2);                   
+            System.out.println(conectados.size() + "#");
             
         }else {
 
             salaDeEspera.remove(index);
             conectados.add(s);
-            System.out.println("Sisa aqui entre");
-            NewConnection m = new NewConnection(s.getUserName(),"","");
+            System.out.println("Sisa aqui entre" + s.getUserName());
+            NewConnection m = new NewConnection(msg,"","");
             String msj1 = json.toJson(m);
-            connectionListener.onConnection(s.getUserName());
+            connectionListener.onConnection(msg);
             s.getEmisor().setMessage(msj1);
           
             
@@ -173,10 +175,7 @@ public class TCPConnection extends Thread {
 	public void sendDirectMessage(String id,String json) {
 		boolean t = false;
 		for(int i = 0; i < conectados.size() && !t;i++) {
-			System.out.println(id + "Soy el id");
-			System.out.println(conectados.get(i).getUserName());
 			if(!conectados.get(i).getUserName().equalsIgnoreCase(id)) {
-				System.out.println(conectados.get(i).getUserName() + " Se envio");
 				conectados.get(i).getEmisor().setMessage(json);
 				t = true;
 			}
